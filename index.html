@@ -531,7 +531,7 @@
             }
         }
 
-       const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzCNkngQKYQ91uhKR_OHZooBOcUv7aCs-KqntAGorpK_Q71DSX9VHwYg6jCy7rg5UWp/exec';
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzCNkngQKYQ91uhKR_OHZooBOcUv7aCs-KqntAGorpK_Q71DSX9VHwYg6jCy7rg5UWp/exec';
 
 function selectService(serviceValue) {
     const selectEl = document.getElementById('serviceType');
@@ -552,7 +552,7 @@ function toggleMobileMenu() {
     }
 }
 
-async function handleFormSubmit(event) {
+function handleFormSubmit(event) {
     event.preventDefault();
 
     const submitBtn = document.getElementById('submitBtn');
@@ -564,35 +564,48 @@ async function handleFormSubmit(event) {
     const selectEl = document.getElementById('serviceType');
     const selectedText = selectEl.options[selectEl.selectedIndex].text;
 
-    const payload = {
-        serviceType: selectedText,
-        department: document.getElementById('department').value,
-        fullName: document.getElementById('fullName').value,
-        phone: document.getElementById('phone').value,
-        description: document.getElementById('description').value
+    // إنشاء نموذج مخفي ديناميكي للإرسال المباشر بدون التعليق على Fetch
+    let hiddenIframe = document.getElementById('hidden_iframe');
+    if (!hiddenIframe) {
+        hiddenIframe = document.createElement('iframe');
+        hiddenIframe.id = 'hidden_iframe';
+        hiddenIframe.name = 'hidden_iframe';
+        hiddenIframe.style.display = 'none';
+        document.body.appendChild(hiddenIframe);
+    }
+
+    const tempForm = document.createElement('form');
+    tempForm.method = 'POST';
+    tempForm.action = GOOGLE_SCRIPT_URL;
+    tempForm.target = 'hidden_iframe';
+
+    const fields = {
+        'serviceType': selectedText,
+        'department': document.getElementById('department').value,
+        'fullName': document.getElementById('fullName').value,
+        'phone': document.getElementById('phone').value,
+        'description': document.getElementById('description').value
     };
 
-    try {
-        await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8'
-            },
-            body: JSON.stringify(payload)
-        });
+    for (const key in fields) {
+        const input = document.createElement('input');
+        input.type = 'hidden';
+        input.name = key;
+        input.value = fields[key];
+        tempForm.appendChild(input);
+    }
 
-        // إظهار نافذة النجاح وتفريغ النموذج
+    document.body.appendChild(tempForm);
+    tempForm.submit();
+
+    // إظهار نافذة النجاح فوراً وإعادة الزر لحالته الطبيعية
+    setTimeout(() => {
+        document.body.removeChild(tempForm);
         document.getElementById('successModal').classList.remove('hidden');
         document.getElementById('repairForm').reset();
-
-    } catch (err) {
-        alert("حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً.");
-        console.error("Submit Error:", err);
-    } finally {
         submitBtn.disabled = false;
         btnText.innerText = "إرسال طلب الصيانة الآن";
-    }
+    }, 1000);
 }
 
 function closeModal() {
