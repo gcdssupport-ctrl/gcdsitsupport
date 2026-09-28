@@ -495,123 +495,92 @@
         </div>
     </div>
 
-    <!-- JavaScript Functions -->
-    <script>
-        // ضع الرابط الذي حصلت عليه من نشر Google Apps Script هنا:
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyZXL7B7M1gEFwhkN0i168zhXwLZDUUCb4x3rCMO2CwrI2ch0XMr8W7Ac2GeEUS9-2KxA/exec';
+        <script>
+    // ضع رابط الـ Web App الجديد بين علامتي التنصيص
+    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwtVljNA0nMe53xaNCAeDqm2jhLWY6mepwmraHR4nQ-nmAFPmDsPujuaYB2LMaxqSE8/exec';
 
-        function selectService(serviceValue) {
-            const selectEl = document.getElementById('serviceType');
-            selectEl.value = serviceValue;
-            document.getElementById('request-form').scrollIntoView({ behavior: 'smooth' });
+    function selectService(serviceValue) {
+        const selectEl = document.getElementById('serviceType');
+        selectEl.value = serviceValue;
+        document.getElementById('request-form').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function toggleMobileMenu() {
+        const menu = document.getElementById('mobile-menu');
+        const icon = document.getElementById('menu-icon');
+        menu.classList.toggle('hidden');
+        if (menu.classList.contains('hidden')) {
+            icon.classList.remove('fa-xmark');
+            icon.classList.add('fa-bars');
+        } else {
+            icon.classList.remove('fa-bars');
+            icon.classList.add('fa-xmark');
+        }
+    }
+
+    function handleFormSubmit(event) {
+        event.preventDefault();
+
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = document.getElementById('btnText');
+        
+        submitBtn.disabled = true;
+        btnText.innerText = "جاري الإرسال...";
+
+        const selectEl = document.getElementById('serviceType');
+        const selectedText = selectEl.options[selectEl.selectedIndex].text;
+
+        // تجهيز نموذج الإرسال المباشر لتجاوز أي تعليق في كروم أندرويد
+        let hiddenIframe = document.getElementById('hidden_iframe');
+        if (!hiddenIframe) {
+            hiddenIframe = document.createElement('iframe');
+            hiddenIframe.id = 'hidden_iframe';
+            hiddenIframe.name = 'hidden_iframe';
+            hiddenIframe.style.display = 'none';
+            document.body.appendChild(hiddenIframe);
         }
 
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobile-menu');
-            const icon = document.getElementById('menu-icon');
-            
-            menu.classList.toggle('hidden');
-            if (menu.classList.contains('hidden')) {
-                icon.classList.remove('fa-xmark');
-                icon.classList.add('fa-bars');
-            } else {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-xmark');
+        const tempForm = document.createElement('form');
+        tempForm.method = 'POST';
+        tempForm.action = GOOGLE_SCRIPT_URL;
+        tempForm.target = 'hidden_iframe';
+
+        const fields = {
+            'serviceType': selectedText,
+            'department': document.getElementById('department').value,
+            'fullName': document.getElementById('fullName').value,
+            'phone': document.getElementById('phone').value,
+            'description': document.getElementById('description').value
+        };
+
+        for (const key in fields) {
+            const input = document.createElement('input');
+            input.type = 'hidden';
+            input.name = key;
+            input.value = fields[key];
+            tempForm.appendChild(input);
+        }
+
+        document.body.appendChild(tempForm);
+        tempForm.submit();
+
+        // إظهار نافذة النجاح فوراً
+        setTimeout(() => {
+            if (document.body.contains(tempForm)) {
+                document.body.removeChild(tempForm);
             }
-        }
-
-        function updateFileName(input) {
-            const display = document.getElementById('fileNameDisplay');
-            if (input.files && input.files[0]) {
-                display.innerText = "تم اختيار الملف: " + input.files[0].name;
-                display.classList.add('text-cyan-400');
-            } else {
-                display.innerText = "اضغط هنا لرفع صورة توضيحية أو اسحب الملف هنا";
-                display.classList.remove('text-cyan-400');
-            }
-        }
-
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzCNkngQKYQ91uhKR_OHZooBOcUv7aCs-KqntAGorpK_Q71DSX9VHwYg6jCy7rg5UWp/exec';
-
-function selectService(serviceValue) {
-    const selectEl = document.getElementById('serviceType');
-    selectEl.value = serviceValue;
-    document.getElementById('request-form').scrollIntoView({ behavior: 'smooth' });
-}
-
-function toggleMobileMenu() {
-    const menu = document.getElementById('mobile-menu');
-    const icon = document.getElementById('menu-icon');
-    menu.classList.toggle('hidden');
-    if (menu.classList.contains('hidden')) {
-        icon.classList.remove('fa-xmark');
-        icon.classList.add('fa-bars');
-    } else {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-xmark');
-    }
-}
-
-function handleFormSubmit(event) {
-    event.preventDefault();
-
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('btnText');
-    
-    submitBtn.disabled = true;
-    btnText.innerText = "جاري الإرسال...";
-
-    const selectEl = document.getElementById('serviceType');
-    const selectedText = selectEl.options[selectEl.selectedIndex].text;
-
-    // إنشاء نموذج مخفي ديناميكي للإرسال المباشر بدون التعليق على Fetch
-    let hiddenIframe = document.getElementById('hidden_iframe');
-    if (!hiddenIframe) {
-        hiddenIframe = document.createElement('iframe');
-        hiddenIframe.id = 'hidden_iframe';
-        hiddenIframe.name = 'hidden_iframe';
-        hiddenIframe.style.display = 'none';
-        document.body.appendChild(hiddenIframe);
+            document.getElementById('successModal').classList.remove('hidden');
+            document.getElementById('repairForm').reset();
+            submitBtn.disabled = false;
+            btnText.innerText = "إرسال طلب الصيانة الآن";
+        }, 1000);
     }
 
-    const tempForm = document.createElement('form');
-    tempForm.method = 'POST';
-    tempForm.action = GOOGLE_SCRIPT_URL;
-    tempForm.target = 'hidden_iframe';
-
-    const fields = {
-        'serviceType': selectedText,
-        'department': document.getElementById('department').value,
-        'fullName': document.getElementById('fullName').value,
-        'phone': document.getElementById('phone').value,
-        'description': document.getElementById('description').value
-    };
-
-    for (const key in fields) {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = fields[key];
-        tempForm.appendChild(input);
+    function closeModal() {
+        document.getElementById('successModal').classList.add('hidden');
     }
-
-    document.body.appendChild(tempForm);
-    tempForm.submit();
-
-    // إظهار نافذة النجاح فوراً وإعادة الزر لحالته الطبيعية
-    setTimeout(() => {
-        document.body.removeChild(tempForm);
-        document.getElementById('successModal').classList.remove('hidden');
-        document.getElementById('repairForm').reset();
-        submitBtn.disabled = false;
-        btnText.innerText = "إرسال طلب الصيانة الآن";
-    }, 1000);
+</script>
 }
-
-function closeModal() {
-    document.getElementById('successModal').classList.add('hidden');
-}
-
-    </script>
+  
 </body>
 </html>
