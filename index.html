@@ -461,7 +461,7 @@
                         <textarea id="description" rows="4" required placeholder="اشرح العطل باختصار..." class="w-full glass-input rounded-xl px-4 py-3 text-xs sm:text-sm resize-none"></textarea>
                     </div>
 
-                    
+                   
                     <button type="submit" id="submitBtn" class="w-full py-3.5 sm:py-4 rounded-xl text-sm sm:text-base font-extrabold text-black bg-gradient-to-r from-cyan-400 via-blue-400 to-indigo-400 shadow-neon-glow hover:shadow-neon-glow-strong hover:scale-[1.01] active:scale-95 transition-all duration-300 flex items-center justify-center gap-2.5">
                         <i class="fa-solid fa-paper-plane"></i>
                         <span id="btnText">إرسال طلب الصيانة الآن</span>
@@ -498,7 +498,7 @@
     <!-- JavaScript Functions -->
     <script>
         // ضع الرابط الذي حصلت عليه من نشر Google Apps Script هنا:
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbycIpXqJRtB_jAR6HnDQan9fXRyFi5sU9_ZIMKvd8x7ytIhlurWJrsvaP1khMEnSsOaIA/exec';
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzGSJUv0TQ4BBuFPUVfR94in6Kcb9UBhBkCoyhVk5a1EW8wgOh0ruAHXRlksZ74mFAueA/exec';
 
         function selectService(serviceValue) {
             const selectEl = document.getElementById('serviceType');
@@ -520,73 +520,84 @@
             }
         }
 
-        
-      
-
-async function handleFormSubmit(event) {
-    event.preventDefault();
-
-    const submitBtn = document.getElementById('submitBtn');
-    const btnText = document.getElementById('btnText');
-    
-    submitBtn.disabled = true;
-    btnText.innerText = "جاري الإرسال...";
-
-    const fileInput = document.getElementById('fileInput');
-    let fileData = null;
-    let fileName = null;
-    let fileMimeType = null;
-
-    if (fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        fileName = file.name;
-        fileMimeType = "image/jpeg";
-        try {
-            fileData = await resizeAndCompressImage(file);
-        } catch (e) {
-            console.error("خطأ في معالجة الصورة:", e);
+        function updateFileName(input) {
+            const display = document.getElementById('fileNameDisplay');
+            if (input.files && input.files[0]) {
+                display.innerText = "تم اختيار الملف: " + input.files[0].name;
+                display.classList.add('text-cyan-400');
+            } else {
+                display.innerText = "اضغط هنا لرفع صورة توضيحية أو اسحب الملف هنا";
+                display.classList.remove('text-cyan-400');
+            }
         }
-    }
 
-    const selectEl = document.getElementById('serviceType');
-    const selectedText = selectEl.options[selectEl.selectedIndex].text;
+        async function handleFormSubmit(event) {
+            event.preventDefault();
 
-    const payload = {
-        serviceType: selectedText,
-        department: document.getElementById('department').value,
-        fullName: document.getElementById('fullName').value,
-        phone: document.getElementById('phone').value,
-        description: document.getElementById('description').value,
-        fileData: fileData,
-        fileName: fileName,
-        fileMimeType: fileMimeType
-    };
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            
+            submitBtn.disabled = true;
+            btnText.innerText = "جاري الإرسال...";
 
-    // الإرسال المتوافق مع كروم أندرويد
-    try {
-        await fetch(GOOGLE_SCRIPT_URL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'text/plain;charset=utf-8'
-            },
-            body: JSON.stringify(payload)
-        });
+            const fileInput = document.getElementById('fileInput');
+            let fileData = null;
+            let fileName = null;
+            let fileMimeType = null;
 
-        // إظهار النافذة وتفريغ الحقول
-        document.getElementById('successModal').classList.remove('hidden');
-        document.getElementById('repairForm').reset();
-        document.getElementById('fileNameDisplay').innerText = "اضغط هنا لرفع صورة توضيحية أو اسحب الملف هنا";
-        document.getElementById('fileNameDisplay').classList.remove('text-cyan-400');
-    } catch (err) {
-        alert("حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً.");
-        console.error("Android Submit Error: ", err);
-    } finally {
-        submitBtn.disabled = false;
-        btnText.innerText = "إرسال طلب الصيانة الآن";
-    }
-}
-   
+            if (fileInput.files.length > 0) {
+                const file = fileInput.files[0];
+                fileName = file.name;
+                fileMimeType = file.type;
+                fileData = await convertBase64(file);
+            }
+
+            const selectEl = document.getElementById('serviceType');
+            const selectedText = selectEl.options[selectEl.selectedIndex].text;
+
+            const formData = {
+                serviceType: selectedText,
+                department: document.getElementById('department').value,
+                fullName: document.getElementById('fullName').value,
+                phone: document.getElementById('phone').value,
+                description: document.getElementById('description').value,
+                fileData: fileData,
+                fileName: fileName,
+                fileMimeType: fileMimeType
+            };
+
+            try {
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                document.getElementById('successModal').classList.remove('hidden');
+                document.getElementById('repairForm').reset();
+                document.getElementById('fileNameDisplay').innerText = "اضغط هنا لرفع صورة توضيحية أو اسحب الملف هنا";
+                document.getElementById('fileNameDisplay').classList.remove('text-cyan-400');
+            } catch (err) {
+                alert("حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً.");
+                console.error(err);
+            } finally {
+                submitBtn.disabled = false;
+                btnText.innerText = "إرسال طلب الصيانة الآن";
+            }
+        }
+
+        function convertBase64(file) {
+            return new Promise((resolve, reject) => {
+                const fileReader = new FileReader();
+                fileReader.readAsDataURL(file);
+                fileReader.onload = () => {
+                    const base64String = fileReader.result.split(',')[1];
+                    resolve(base64String);
+                };
+                fileReader.onerror = (error) => reject(error);
+            });
+        }
 
         function closeModal() {
             document.getElementById('successModal').classList.add('hidden');
