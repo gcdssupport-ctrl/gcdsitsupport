@@ -24,9 +24,6 @@
     </script>
 
     <style>
-        /* =========================================================
-           FIXED THEME: الأزرق المائي التقني (TECH BLUE)
-           ========================================================= */
         :root {
             --bg-main: #030f1e;
             --bg-card: rgba(10, 25, 47, 0.88);
@@ -46,7 +43,6 @@
             --scrollbar-thumb: linear-gradient(#38bdf8, #0369a1);
         }
 
-        /* GLOBAL STYLES WITH VARIABLE MAPPING */
         body {
             font-family: 'Cairo', sans-serif;
             background-color: var(--bg-main);
@@ -125,33 +121,9 @@
             transform: scale(1.02);
         }
 
-        /* Dynamic Colors Helpers */
         .theme-accent { color: var(--accent-primary); }
         .theme-muted { color: var(--text-muted); }
         .theme-badge { background-color: var(--badge-bg); }
-
-        @keyframes pulseGlow {
-            0% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 2px var(--accent-primary));
-                opacity: 0.8;
-            }
-            50% {
-                transform: scale(1.25);
-                filter: drop-shadow(0 0 12px var(--accent-primary)) drop-shadow(0 0 20px var(--accent-secondary));
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1);
-                filter: drop-shadow(0 0 2px var(--accent-primary));
-                opacity: 0.8;
-            }
-        }
-
-        .icon-pulse-glow {
-            animation: pulseGlow 1.8s infinite ease-in-out;
-            display: inline-block;
-        }
 
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg-main); }
@@ -164,7 +136,6 @@
     <header class="fixed top-4 inset-x-4 sm:inset-x-8 z-50 max-w-7xl mx-auto">
         <div class="royal-card px-5 sm:px-8 py-3.5 flex items-center justify-between !rounded-full">
             
-            <!-- Logo & Dept -->
             <a href="#home" class="flex items-center gap-3">
                 <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-full btn-gold flex items-center justify-center text-lg sm:text-xl shadow-lg">
                     <i class="fa-solid fa-droplet text-black"></i>
@@ -180,28 +151,24 @@
                 </div>
             </a>
 
-            <!-- Nav Items -->
             <nav class="hidden md:flex items-center space-x-8 space-x-reverse text-xs sm:text-sm font-bold">
                 <a href="#home" class="hover:opacity-80 transition-opacity">الرئيسية</a>
                 <a href="#services" class="hover:opacity-80 transition-opacity">خدماتنا المميزة</a>
                 <a href="#request-form" class="hover:opacity-80 transition-opacity">حجز صيانة</a>
             </nav>
 
-            <!-- Quick Action CTA -->
             <div class="flex items-center gap-2">
                 <a href="#request-form" class="btn-gold px-6 py-2.5 rounded-full text-xs sm:text-sm font-black flex items-center">
                     <i class="fa-solid fa-bolt-lightning ml-1.5"></i>
                     طلب صيانة
                 </a>
 
-                <!-- Mobile Menu Toggle -->
                 <button id="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Toggle Menu" class="md:hidden text-xl theme-accent p-2">
                     <i class="fa-solid fa-bars" id="menu-icon"></i>
                 </button>
             </div>
         </div>
 
-        <!-- Mobile Menu Dropdown -->
         <div id="mobile-menu" class="hidden md:hidden royal-card rounded-2xl mt-3 p-5 space-y-3">
             <a href="#home" onclick="toggleMobileMenu()" class="block text-sm font-bold py-2 border-b border-white/10">الرئيسية</a>
             <a href="#services" onclick="toggleMobileMenu()" class="block text-sm font-bold py-2 border-b border-white/10">خدماتنا</a>
@@ -217,22 +184,20 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
                 
-                <!-- Main Intro -->
                 <div class="lg:col-span-7 text-right space-y-6">
                     
-                    <!-- Team Badges -->
+                    <!-- Team Badges (مع أزرار وميض الحالة المتغيرة تلقائياً) -->
                     <div class="flex flex-wrap items-center gap-3">
                         <div class="gold-border px-4 py-2 rounded-full text-xs sm:text-sm font-bold flex items-center gap-2 theme-badge backdrop-blur-md">
-                            <i class="fa-solid fa-user-shield theme-accent text-sm icon-pulse-glow"></i>
+                            <span id="eng1-status" class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
                             <span class="gold-gradient-text">م . عبدالقادر الخاروف</span>
                         </div>
                         <div class="gold-border px-4 py-2 rounded-full text-xs sm:text-sm font-bold flex items-center gap-2 theme-badge backdrop-blur-md">
-                            <i class="fa-solid fa-user-shield theme-accent text-sm icon-pulse-glow"></i>
+                            <span id="eng2-status" class="w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse"></span>
                             <span class="gold-gradient-text">م . ملاك العلي</span>
                         </div>
                     </div>
 
-                    <!-- Main Heading -->
                     <h1 class="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tight">
                         منظومة الدعم الفني <br>
                         <span class="gold-gradient-text">لصيانة الحاسوب والشبكات والمحابر</span>
@@ -242,7 +207,6 @@
                         دعم فني استثنائي وتطوير تقني عالي الدقة لضمان استقرار الشبكات والتجهيزات الحاسوبية وإمدادات المحابر لدى كافة مديريات وأقسام الشركة.
                     </p>
 
-                    <!-- CTAs -->
                     <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
                         <a href="#request-form" class="btn-gold px-8 py-4 rounded-2xl text-sm sm:text-base font-black flex items-center justify-center gap-3">
                             <i class="fa-solid fa-wrench"></i>
@@ -255,7 +219,6 @@
                     </div>
                 </div>
 
-                <!-- Interactive System Panel -->
                 <div class="lg:col-span-5">
                     <div class="royal-card p-6 sm:p-8 space-y-6">
                         <div class="flex items-center justify-between border-b border-white/10 pb-4">
@@ -306,7 +269,6 @@
     <!-- Services Section -->
     <section id="services" class="py-16 sm:py-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
             <div class="text-center max-w-3xl mx-auto space-y-3 mb-12 sm:mb-16">
                 <span class="gold-border px-4 py-1.5 rounded-full text-xs font-extrabold tracking-widest uppercase theme-badge gold-gradient-text">
                     خدمات مديرية المعلوماتية
@@ -320,8 +282,6 @@
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                
-                <!-- Service 1 -->
                 <div onclick="selectService('desktop')" class="royal-card p-6 cursor-pointer space-y-4 group">
                     <div class="w-14 h-14 rounded-2xl btn-gold flex items-center justify-center text-2xl">
                         <i class="fa-solid fa-desktop"></i>
@@ -334,7 +294,6 @@
                     </div>
                 </div>
 
-                <!-- Service 2 -->
                 <div onclick="selectService('laptop')" class="royal-card p-6 cursor-pointer space-y-4 group">
                     <div class="w-14 h-14 rounded-2xl btn-gold flex items-center justify-center text-2xl">
                         <i class="fa-solid fa-laptop"></i>
@@ -347,7 +306,6 @@
                     </div>
                 </div>
 
-                <!-- Service 3 -->
                 <div onclick="selectService('printer-ink')" class="royal-card p-6 cursor-pointer space-y-4 group">
                     <div class="w-14 h-14 rounded-2xl btn-gold flex items-center justify-center text-2xl">
                         <i class="fa-solid fa-print"></i>
@@ -360,7 +318,6 @@
                     </div>
                 </div>
 
-                <!-- Service 4 -->
                 <div onclick="selectService('router-switch')" class="royal-card p-6 cursor-pointer space-y-4 group">
                     <div class="w-14 h-14 rounded-2xl btn-gold flex items-center justify-center text-2xl">
                         <i class="fa-solid fa-network-wired"></i>
@@ -373,7 +330,6 @@
                     </div>
                 </div>
 
-                <!-- Service 5 -->
                 <div onclick="selectService('network-cabling')" class="royal-card p-6 cursor-pointer space-y-4 group">
                     <div class="w-14 h-14 rounded-2xl btn-gold flex items-center justify-center text-2xl">
                         <i class="fa-solid fa-wifi"></i>
@@ -386,7 +342,6 @@
                     </div>
                 </div>
 
-                <!-- Service 6 -->
                 <div onclick="selectService('data-virus')" class="royal-card p-6 cursor-pointer space-y-4 group">
                     <div class="w-14 h-14 rounded-2xl btn-gold flex items-center justify-center text-2xl">
                         <i class="fa-solid fa-shield-virus"></i>
@@ -399,7 +354,6 @@
                     </div>
                 </div>
 
-                <!-- Service 7 -->
                 <div onclick="selectService('software-os')" class="royal-card p-6 cursor-pointer space-y-4 group sm:col-span-2 lg:col-span-1">
                     <div class="w-14 h-14 rounded-2xl btn-gold flex items-center justify-center text-2xl">
                         <i class="fa-solid fa-sliders"></i>
@@ -411,7 +365,6 @@
                         <i class="fa-solid fa-arrow-left group-hover:-translate-x-2 transition-transform"></i>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
@@ -419,7 +372,7 @@
     <!-- Form Section -->
     <section id="request-form" class="py-16 sm:py-20 relative">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="royal-card p-6 sm:p-10 shadow-2xl relative">
+            <div class="royal-card p-6 sm:p-10 shadow-2xl relative" id="formContainer">
                 
                 <div class="text-center space-y-2 mb-8">
                     <span class="gold-border px-4 py-1.5 rounded-full text-xs font-extrabold uppercase theme-badge gold-gradient-text">
@@ -429,10 +382,15 @@
                     <p class="text-xs sm:text-sm theme-muted">يرجى تعبئة الحقول للتواصل السريع ومعالجة الطلب</p>
                 </div>
 
+                <!-- رسالة إغلاق الموقع بعد انتهاء الدوام (مخفية افتراضياً) -->
+                <div id="closedMessage" class="hidden text-center p-8 bg-gray-900/90 rounded-2xl border border-red-500/40 space-y-3">
+                    <div class="text-5xl">⏰</div>
+                    <h3 class="text-2xl font-black text-red-400">عذراً، انتهى وقت الدوام الرسمي</h3>
+                    <p class="text-sm theme-muted">استقبال طلبات الصيانة يتوقف بعد ساعات العمل الرسمية. يرجى تقديم طلبك في وقت الدوام القادم.</p>
+                </div>
+
                 <!-- Form Element -->
                 <form id="repairForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
-                    
-                    <!-- Service Type Selector -->
                     <div>
                         <label class="block text-xs sm:text-sm font-bold mb-2">نوع الجهاز / الخدمة المطلوبة <span class="theme-accent">*</span></label>
                         <select id="serviceType" required class="w-full royal-input rounded-xl px-4 py-3.5 text-xs sm:text-sm font-medium">
@@ -448,10 +406,7 @@
                         </select>
                     </div>
 
-                    <!-- Input Grid -->
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        
-                        <!-- Department -->
                         <div>
                             <label class="block text-xs sm:text-sm font-bold mb-2">القسم <span class="theme-accent">*</span></label>
                             <div class="relative">
@@ -462,7 +417,6 @@
                             </div>
                         </div>
 
-                        <!-- Full Name -->
                         <div>
                             <label class="block text-xs sm:text-sm font-bold mb-2">الاسم الكامل <span class="theme-accent">*</span></label>
                             <div class="relative">
@@ -473,7 +427,6 @@
                             </div>
                         </div>
 
-                        <!-- Phone -->
                         <div class="sm:col-span-2 lg:col-span-1">
                             <label class="block text-xs sm:text-sm font-bold mb-2">رقم التواصل <span class="theme-accent">*</span></label>
                             <div class="relative">
@@ -483,28 +436,23 @@
                                 <input type="tel" id="phone" required placeholder="09xxxxxxxx" dir="ltr" class="w-full royal-input rounded-xl pr-10 pl-4 py-3.5 text-xs sm:text-sm text-right">
                             </div>
                         </div>
-
                     </div>
 
-                    <!-- Problem Description -->
                     <div>
                         <label class="block text-xs sm:text-sm font-bold mb-2">تفاصيل العطل أو المشكلة <span class="theme-accent">*</span></label>
                         <textarea id="description" rows="4" required placeholder="اشرح نوع العطل بشكل مختصر..." class="w-full royal-input rounded-xl p-4 text-xs sm:text-sm resize-none"></textarea>
                     </div>
 
-                    <!-- Submit Button -->
                     <button type="submit" id="submitBtn" class="w-full py-4 rounded-xl text-sm sm:text-base font-black btn-gold flex items-center justify-center gap-3">
                         <i class="fa-solid fa-paper-plane text-lg"></i>
                         <span id="btnText">إرسال طلب الصيانة الآن</span>
                     </button>
-
                 </form>
 
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="royal-card !rounded-none border-t border-white/10 py-6 text-center text-xs opacity-90 px-4">
         <p class="font-bold gold-gradient-text">جميع الحقوق محفوظة © مديرية المعلوماتية - الشركة العامة لمياه الشرب والصرف الصحي</p>
     </footer>
@@ -528,102 +476,129 @@
     </div>
 
     <!-- JavaScript Section -->
- 
-  <script>
-    const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqQ0uFoGURteHFy-fHjGcdSZdm5CtK7WiQcYFFshUdb1ampBSmDebVDb7I9KyAjcQO/exec';
+    <script>
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxqQ0uFoGURteHFy-fHjGcdSZdm5CtK7WiQcYFFshUdb1ampBSmDebVDb7I9KyAjcQO/exec';
 
-    function selectService(serviceValue) {
-        const selectEl = document.getElementById('serviceType');
-        selectEl.value = serviceValue;
-        document.getElementById('request-form').scrollIntoView({ behavior: 'smooth' });
+        // قراءة حالة AppSheet تلقائياً فور فتح الصفحة
+        document.addEventListener("DOMContentLoaded", async () => {
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL);
+                const data = await response.json();
+
+                // 1. فحص حالة الدوام
+                if (data["حالة النظام"] === "مغلق") {
+                    document.getElementById("repairForm").classList.add("hidden");
+                    document.getElementById("closedMessage").classList.remove("hidden");
+                }
+
+                // 2. تحديث لون وميض المهندسين
+                updateStatus("eng1-status", data["المهندس عبدالقادر"]);
+                updateStatus("eng2-status", data["المهندس ملاك"]);
+
+            } catch (e) {
+                console.error("خطأ أثناء جلب حالات النظام:", e);
+            }
+        });
+
+       function updateStatus(elementId, status) {
+    const el = document.getElementById(elementId);
+    if (!el) return;
+
+    if (status === "متاح") {
+        // أخضر + وميض
+        el.className = "w-2.5 h-2.5 rounded-full bg-green-500 animate-pulse";
+    } else {
+        // أحمر + وميض
+        el.className = "w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse";
     }
+}
 
-    function toggleMobileMenu() {
-        const menu = document.getElementById('mobile-menu');
-        const icon = document.getElementById('menu-icon');
-        menu.classList.toggle('hidden');
-        if (menu.classList.contains('hidden')) {
-            icon.classList.remove('fa-xmark');
-            icon.classList.add('fa-bars');
-        } else {
-            icon.classList.remove('fa-bars');
-            icon.classList.add('fa-xmark');
-        }
-    }
-
-    async function handleFormSubmit(event) {
-        event.preventDefault();
-
-        const submitBtn = document.getElementById('submitBtn');
-        const btnText = document.getElementById('btnText');
-
-        // 1. الفحص المبدئي للشبكة
-        if (!navigator.onLine) {
-            alert("⚠️ لا يوجد اتصال بالإنترنت! يرجى الاتصال بالشبكة ثم إعادة المحاولة.");
-            return;
+        function selectService(serviceValue) {
+            const selectEl = document.getElementById('serviceType');
+            selectEl.value = serviceValue;
+            document.getElementById('request-form').scrollIntoView({ behavior: 'smooth' });
         }
 
-        submitBtn.disabled = true;
-        btnText.innerText = "جاري الإرسال...";
-
-        const selectEl = document.getElementById('serviceType');
-        const selectedText = selectEl.options[selectEl.selectedIndex].text;
-
-        // تجهيز البيانات بصيغة URLSearchParams لضمان قراءتها في Apps Script
-        const formData = new URLSearchParams();
-        formData.append('serviceType', selectedText);
-        formData.append('department', document.getElementById('department').value);
-        formData.append('fullName', document.getElementById('fullName').value);
-        formData.append('phone', document.getElementById('phone').value);
-        formData.append('description', document.getElementById('description').value);
-
-        // إعداد إمكانية إلغاء الطلب في حال استغرق وقتاً طويلاً (Timeout 10 ثوانٍ)
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 10000);
-
-        try {
-            // إرسال الطلب المباشر وانتظار الاستجابة الحقيقية من السيرفر
-            const response = await fetch(GOOGLE_SCRIPT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formData.toString(),
-                signal: controller.signal
-            });
-
-            clearTimeout(timeoutId);
-
-            if (response.ok) {
-                // لن تظهر هذه النافذة إلا إذا وصل الطلب للسيرفر بنجاح 100%
-                document.getElementById('successModal').classList.remove('hidden');
-                document.getElementById('repairForm').reset();
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            const icon = document.getElementById('menu-icon');
+            menu.classList.toggle('hidden');
+            if (menu.classList.contains('hidden')) {
+                icon.classList.remove('fa-xmark');
+                icon.classList.add('fa-bars');
             } else {
-                throw new Error("فشل الاستجابة من السيرفر");
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-xmark');
+            }
+        }
+
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+
+            if (!navigator.onLine) {
+                alert("⚠️ لا يوجد اتصال بالإنترنت! يرجى الاتصال بالشبكة ثم إعادة المحاولة.");
+                return;
             }
 
-        } catch (error) {
-            clearTimeout(timeoutId);
-            
-            // في حال انقطع الاتصال أو أُلغي الطلب بسبب بطء الشبكة
-            if (error.name === 'AbortError') {
-                alert("⚠️ استغرق الإرسال وقتاً طويلاً بسبب ضعف الإنترنت. لم يتم إرسال الطلب، يرجى إعادة المحاولة.");
-            } else if (!navigator.onLine) {
-                alert("⚠️ انقطع الاتصال بالإنترنت أثناء الإرسال! لم يتم إرسال الطلب.");
-            } else {
-                alert("⚠️ يتعذر الإرسال حالياً. يرجى التأكد من الاتصال بالإنترنت وإعادة المحاولة.");
+            submitBtn.disabled = true;
+            btnText.innerText = "جاري الإرسال...";
+
+            const selectEl = document.getElementById('serviceType');
+            const selectedText = selectEl.options[selectEl.selectedIndex].text;
+
+            const formData = new URLSearchParams();
+            formData.append('serviceType', selectedText);
+            formData.append('department', document.getElementById('department').value);
+            formData.append('fullName', document.getElementById('fullName').value);
+            formData.append('phone', document.getElementById('phone').value);
+            formData.append('description', document.getElementById('description').value);
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+            try {
+                const response = await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: formData.toString(),
+                    signal: controller.signal
+                });
+
+                clearTimeout(timeoutId);
+
+                if (response.ok) {
+                    document.getElementById('successModal').classList.remove('hidden');
+                    document.getElementById('repairForm').reset();
+                } else {
+                    throw new Error("فشل الاستجابة من السيرفر");
+                }
+
+            } catch (error) {
+                clearTimeout(timeoutId);
+                
+                if (error.name === 'AbortError') {
+                    alert("⚠️ استغرق الإرسال وقتاً طويلاً بسبب ضعف الإنترنت. لم يتم إرسال الطلب، يرجى إعادة المحاولة.");
+                } else if (!navigator.onLine) {
+                    alert("⚠️ انقطع الاتصال بالإنترنت أثناء الإرسال! لم يتم إرسال الطلب.");
+                } else {
+                    alert("⚠️ يتعذر الإرسال حالياً. يرجى التأكد من الاتصال بالإنترنت وإعادة المحاولة.");
+                }
+                console.error("Submit Error:", error);
+
+            } finally {
+                submitBtn.disabled = false;
+                btnText.innerText = "إرسال طلب الصيانة الآن";
             }
-            console.error("Submit Error:", error);
-
-        } finally {
-            submitBtn.disabled = false;
-            btnText.innerText = "إرسال طلب الصيانة الآن";
         }
-    }
 
-    function closeModal() {
-        document.getElementById('successModal').classList.add('hidden');
-    }
-</script>
+        function closeModal() {
+            document.getElementById('successModal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
